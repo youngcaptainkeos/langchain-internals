@@ -51,18 +51,60 @@ NODES = [
     "supervisor",
 ]
 
-PROMPTS = [
-    "Research a company and write a report",
-    "Research and perform calculations",
-    "Create report and verify findings",
-    "Generate security review",
-    "Audit database consistency",
-    "Plan project and summarize",
-    "Code review workflow",
-    "Multi-stage research pipeline",
-    "Security validation pipeline",
-    "End-to-end execution trace",
+PROMPT_SCENARIOS = [
+    {
+        "prompt": "Research the impact of quantum computing on RSA encryption, write a technical report, review it, summarize key risks, and estimate migration costs.",
+        "finding": "Cryptographically relevant quantum computers would make widely deployed RSA keys vulnerable to Shor's algorithm.",
+        "estimate": "A staged post-quantum migration is estimated at $4.8M over 30 months.",
+    },
+    {
+        "prompt": "Analyze a ransomware attack against a hospital, create an incident report, review the report, and estimate recovery costs.",
+        "finding": "The simulated attack disrupted clinical scheduling and encrypted 420 endpoints while segmented medical devices remained available.",
+        "estimate": "Recovery and business-interruption costs are estimated at $7.2M.",
+    },
+    {
+        "prompt": "Research risks of autonomous agents in finance, produce a compliance report, review it, and calculate potential exposure.",
+        "finding": "Unbounded tool access and weak transaction approval controls create material model and operational risk.",
+        "estimate": "Modeled maximum transaction exposure is $12.5M per control failure.",
+    },
+    {
+        "prompt": "Design a microservices architecture for an e-commerce platform, document it, review design flaws, and estimate infrastructure costs.",
+        "finding": "The design uses independently scalable catalog, order, payment, inventory, and notification services with event-driven coordination.",
+        "estimate": "Baseline cloud infrastructure is estimated at $68,000 per month.",
+    },
+    {
+        "prompt": "Research deployment of AI diagnostics in rural hospitals, produce a feasibility report, review assumptions, and estimate operating costs.",
+        "finding": "Deployment is feasible with offline inference, clinician oversight, and periodic connectivity for model monitoring.",
+        "estimate": "Annual operating cost is estimated at $940,000 across ten hospitals.",
+    },
+    {
+        "prompt": "Assess a zero-trust migration for a multinational enterprise, create a security plan, audit dependencies, and estimate implementation costs.",
+        "finding": "Identity governance, device posture, and legacy application segmentation are the critical migration dependencies.",
+        "estimate": "The three-year migration is estimated at $18.4M.",
+    },
+    {
+        "prompt": "Evaluate a global supply-chain disruption, write an operational risk report, verify assumptions, and calculate revenue exposure.",
+        "finding": "Single-source semiconductor components create a projected eleven-week production constraint.",
+        "estimate": "Revenue exposure is estimated at $31M under the base disruption scenario.",
+    },
+    {
+        "prompt": "Design a privacy-preserving healthcare data platform, review its controls, validate API risks, and estimate delivery costs.",
+        "finding": "Tokenization, consent enforcement, immutable auditing, and tenant-isolated analytics are required controls.",
+        "estimate": "Platform delivery is estimated at $6.3M over eighteen months.",
+    },
+    {
+        "prompt": "Analyze an AI model supply-chain compromise, prepare an incident assessment, verify containment steps, and estimate remediation costs.",
+        "finding": "A poisoned dependency can affect training provenance, evaluation integrity, and downstream model artifacts.",
+        "estimate": "Forensic rebuild and validation are estimated at $2.7M.",
+    },
+    {
+        "prompt": "Plan a multi-region payment platform migration, document failure modes, perform a security review, and estimate operational costs.",
+        "finding": "The principal risks are split-brain settlement, idempotency failures, and inconsistent regional key management.",
+        "estimate": "Steady-state multi-region operations are estimated at $210,000 per month.",
+    },
 ]
+
+PROMPTS = [scenario["prompt"] for scenario in PROMPT_SCENARIOS]
 
 COMPROMISED_NODES = ["researcher", "writer", "math", "coder", "database"]
 
@@ -147,6 +189,13 @@ TOPOLOGIES = {
     ],
 }
 
+TOPOLOGY_TRACE_IDS = {
+    "tau_0_dag": "A",
+    "tau_1_hub": "B",
+    "tau_2_clusters": "C",
+    "dense_interconnected": "D",
+}
+
 
 def create_experiment_directory() -> tuple[str, Path]:
     """Atomically create and return the next exp_NNN directory."""
@@ -159,6 +208,7 @@ def create_experiment_directory() -> tuple[str, Path]:
             path.mkdir()
             (path / "graphs").mkdir()
             (path / "runtime_logs").mkdir()
+            (path / "communications").mkdir()
             return experiment_id, path
         except FileExistsError:
             number += 1
@@ -188,6 +238,173 @@ def propagate_compromise(graph: nx.DiGraph, compromised_node: str) -> list[str]:
                 infected.append(neighbor)
                 queue.append(neighbor)
     return infected
+
+
+def generate_agent_output(
+    agent: str,
+    scenario: dict[str, str],
+    compromised_node: str,
+) -> str:
+    """Generate deterministic role-specific content carrying a poison marker."""
+    finding = scenario["finding"]
+    estimate = scenario["estimate"]
+    role_outputs = {
+        "researcher": f"EVIDENCE: {finding}",
+        "writer": f"TECHNICAL REPORT: The collected evidence indicates that {finding}",
+        "reviewer": f"REVIEW: The report is coherent, but its assumptions require independent validation. {finding}",
+        "math": f"QUANTITATIVE ANALYSIS: {estimate}",
+        "auditor": f"AUDIT RESULT: Evidence lineage was checked against the stated finding. {finding}",
+        "planner": f"IMPLEMENTATION PLAN: Phase the response, assign control owners, and validate milestones. {estimate}",
+        "coder": "ENGINEERING OUTPUT: Produced a reference design with validation, observability, and rollback controls.",
+        "critic": f"CRITIQUE: The proposal understates dependency and residual-risk uncertainty. {finding}",
+        "verifier": "VERIFICATION: Control assertions were checked; unresolved claims remain flagged for evidence.",
+        "summarizer": f"EXECUTIVE SUMMARY: {finding} {estimate}",
+        "security": "SECURITY ASSESSMENT: Apply least privilege, provenance checks, segmentation, and continuous monitoring.",
+        "database": "DATA ASSESSMENT: Enforce integrity constraints, encryption, lineage, backups, and access auditing.",
+        "api": "API ASSESSMENT: Require authenticated requests, idempotency, schema validation, throttling, and audit logs.",
+        "executor": "EXECUTION RESULT: The staged workflow completed with checkpoints and rollback conditions recorded.",
+        "supervisor": f"SUPERVISOR DECISION: Escalate unresolved risks and track the estimate: {estimate}",
+    }
+    poison = (
+        f"\n[POISONED_DATA origin={compromised_node}] "
+        "UNVERIFIED CLAIM: all identified risks can be accepted without additional controls."
+    )
+    return role_outputs[agent] + poison
+
+
+def simulate_communications(
+    graph: nx.DiGraph,
+    compromised_node: str,
+    scenario: dict[str, str],
+) -> tuple[list[dict[str, object]], list[list[str]]]:
+    """Simulate one bounded message per reachable edge in deterministic BFS order."""
+    if compromised_node not in graph:
+        return [], []
+
+    output_by_agent = {
+        compromised_node: generate_agent_output(compromised_node, scenario, compromised_node)
+    }
+    steps: list[dict[str, object]] = [
+        {
+            "sequence": 0,
+            "agent": compromised_node,
+            "from_agent": None,
+            "input": scenario["prompt"],
+            "output": output_by_agent[compromised_node],
+            "compromised": True,
+            "poisoned_data_observed": True,
+            "message_type": "source_execution",
+        }
+    ]
+    visited = {compromised_node}
+    queue = deque([compromised_node])
+    sequence = 1
+
+    while queue:
+        sender = queue.popleft()
+        for recipient in graph.successors(sender):
+            recipient_output = generate_agent_output(recipient, scenario, compromised_node)
+            steps.append(
+                {
+                    "sequence": sequence,
+                    "agent": recipient,
+                    "from_agent": sender,
+                    "input": output_by_agent[sender],
+                    "output": recipient_output,
+                    "compromised": recipient == compromised_node,
+                    "poisoned_data_observed": True,
+                    "message_type": "agent_message",
+                }
+            )
+            sequence += 1
+            output_by_agent[recipient] = recipient_output
+            if recipient not in visited:
+                visited.add(recipient)
+                queue.append(recipient)
+
+    infection_paths = [
+        nx.shortest_path(graph, compromised_node, infected_node)
+        for infected_node in visited
+        if infected_node != compromised_node
+    ]
+    infection_paths.sort(key=lambda path: (len(path), path))
+    return steps, infection_paths
+
+
+def communication_markdown(trace: dict[str, object]) -> str:
+    """Render a communication trace as a reviewer-readable Markdown transcript."""
+    lines = [
+        "# Prompt",
+        "",
+        str(trace["prompt"]),
+        "",
+        f"**Topology:** {trace['topology']}  ",
+        f"**Compromised node:** {trace['compromise_source']}  ",
+        f"**Runtime τ_FVS:** {trace['runtime_tau']}  ",
+        f"**FVS nodes:** {', '.join(trace['fvs_nodes']) or 'None'}  ",
+        f"**Messages before revocation:** {trace['message_count']}  ",
+        f"**Messages after revocation:** {trace['message_count_after_revocation']}",
+        "",
+        "---",
+        "",
+        "# Communication Before Revocation",
+    ]
+    for step in trace["steps"]:
+        lines.extend(
+            [
+                "",
+                f"## {step['sequence']:02d}. {str(step['agent']).title()}",
+                "",
+                f"From: {step['from_agent'] or 'User prompt'}",
+                "",
+                "Input:",
+                str(step["input"]),
+                "",
+                "Output:",
+                str(step["output"]),
+                "",
+                f"Compromised: {step['compromised']}",
+                "",
+                f"Poisoned Data Observed: {step['poisoned_data_observed']}",
+                "",
+                "---",
+            ]
+        )
+
+    lines.extend(["", "# Communication After FVS Revocation"])
+    if not trace["post_revocation_steps"]:
+        lines.extend(["", "No communication occurred because the compromise source was revoked."])
+    else:
+        for step in trace["post_revocation_steps"]:
+            lines.extend(
+                [
+                    "",
+                    f"## {step['sequence']:02d}. {str(step['agent']).title()}",
+                    "",
+                    f"From: {step['from_agent'] or 'User prompt'}",
+                    "",
+                    "Input:",
+                    str(step["input"]),
+                    "",
+                    "Output:",
+                    str(step["output"]),
+                    "",
+                    f"Poisoned Data Observed: {step['poisoned_data_observed']}",
+                    "",
+                    "---",
+                ]
+            )
+    return "\n".join(lines) + "\n"
+
+
+def save_communication_trace(
+    json_path: Path,
+    markdown_path: Path,
+    trace: dict[str, object],
+) -> None:
+    """Store the same communication evidence as structured JSON and Markdown."""
+    json_path.write_text(json.dumps(trace, indent=2) + "\n", encoding="utf-8")
+    markdown_path.write_text(communication_markdown(trace), encoding="utf-8")
 
 
 def save_runtime_log(path: Path, edges: list[tuple[str, str]]) -> None:
@@ -344,6 +561,11 @@ def write_metadata(experiment_id: str, path: Path, run_count: int) -> None:
         "prompt_count": len(PROMPTS),
         "run_count": run_count,
         "compromised_node_rotation": COMPROMISED_NODES,
+        "communication_model": (
+            "Deterministic simulation: one source execution and one message per "
+            "reachable directed edge, with each reachable node expanded once."
+        ),
+        "communication_formats": ["json", "markdown"],
         "networkx_version": nx.__version__,
         "pandas_version": pd.__version__,
     }
@@ -358,6 +580,8 @@ def write_validation_report(results: pd.DataFrame, path: Path) -> None:
     containment_rate = float(results["Containment Success"].mean() * 100)
     average_before = float(results["K Before"].mean())
     average_after = float(results["K After"].mean())
+    average_messages = float(results["Message Count"].mean())
+    total_messages = int(results["Message Count"].sum())
     bound_holds = maximum <= STATIC_TAU
 
     violating_topologies = sorted(
@@ -373,6 +597,8 @@ def write_validation_report(results: pd.DataFrame, path: Path) -> None:
         f"Containment Success Rate: {containment_rate:.1f}%",
         f"Average K Before: {average_before:.2f}",
         f"Average K After: {average_after:.2f}",
+        f"Average Message Count: {average_messages:.2f}",
+        f"Total Agent-to-Agent Messages: {total_messages}",
         f"Static τ_FVS: {STATIC_TAU}",
         "",
         "Static upper-bound validation: " + ("PASS" if bound_holds else "FAIL"),
@@ -401,6 +627,7 @@ def run_experiment() -> tuple[str, Path, pd.DataFrame]:
     experiment_id, experiment_dir = create_experiment_directory()
     graphs_dir = experiment_dir / "graphs"
     logs_dir = experiment_dir / "runtime_logs"
+    communications_dir = experiment_dir / "communications"
     write_prompts(experiment_dir / "prompts.txt")
 
     topology_analyses = {}
@@ -421,7 +648,9 @@ def run_experiment() -> tuple[str, Path, pd.DataFrame]:
     for topology, edges in TOPOLOGIES.items():
         analysis = topology_analyses[topology]
         graph = analysis["graph"]
-        for prompt in PROMPTS:
+        trace_id = TOPOLOGY_TRACE_IDS[topology]
+        for prompt_number, scenario in enumerate(PROMPT_SCENARIOS, 1):
+            prompt = scenario["prompt"]
             run_number += 1
             run_id = f"run_{run_number:03d}"
             compromised = COMPROMISED_NODES[(run_number - 1) % len(COMPROMISED_NODES)]
@@ -430,6 +659,46 @@ def run_experiment() -> tuple[str, Path, pd.DataFrame]:
             revoked_graph.remove_nodes_from(analysis["fvs"])
             infected_after = propagate_compromise(revoked_graph, compromised)
             containment_success = len(infected_before) > 0 and len(infected_after) == 0
+            steps_before, infection_paths = simulate_communications(
+                graph, compromised, scenario
+            )
+            steps_after, infection_paths_after = simulate_communications(
+                revoked_graph, compromised, scenario
+            )
+            message_count = max(0, len(steps_before) - 1)
+            message_count_after = max(0, len(steps_after) - 1)
+
+            communication_stem = f"trace_{trace_id}_prompt_{prompt_number:02d}"
+            communication_json = f"communications/{communication_stem}.json"
+            communication_markdown_path = f"communications/{communication_stem}.md"
+            communication_trace = {
+                "experiment": experiment_id,
+                "run_id": run_id,
+                "prompt": prompt,
+                "topology": topology,
+                "runtime_tau": analysis["tau"],
+                "compromise_source": compromised,
+                "fvs_nodes": analysis["fvs"],
+                "k_before": len(infected_before),
+                "k_after": len(infected_after),
+                "message_count": message_count,
+                "message_count_after_revocation": message_count_after,
+                "infected_nodes": infected_before,
+                "infected_nodes_after_revocation": infected_after,
+                "infection_paths": infection_paths,
+                "infection_paths_after_revocation": infection_paths_after,
+                "steps": steps_before,
+                "post_revocation_steps": steps_after,
+                "trace_semantics": (
+                    "Deterministic simulation; each reachable directed edge transmits "
+                    "at most once, preventing infinite replay through cycles."
+                ),
+            }
+            save_communication_trace(
+                experiment_dir / communication_json,
+                experiment_dir / communication_markdown_path,
+                communication_trace,
+            )
 
             save_runtime_log(logs_dir / f"{run_id}.jsonl", edges)
             title = f"{run_id}: {topology} | compromised={compromised}"
@@ -459,6 +728,11 @@ def run_experiment() -> tuple[str, Path, pd.DataFrame]:
                     "K Before": len(infected_before),
                     "K After": len(infected_after),
                     "Containment Success": containment_success,
+                    "Message Count": message_count,
+                    "Messages After Revocation": message_count_after,
+                    "Infection Path Count": len(infection_paths),
+                    "Communications JSON": communication_json,
+                    "Communications Markdown": communication_markdown_path,
                 }
             )
 
@@ -483,6 +757,8 @@ def print_summary(experiment_id: str, experiment_dir: Path, results: pd.DataFram
     print(f"Containment success rate: {successes}/{len(results)}")
     print(f"Average K Before: {results['K Before'].mean():.2f}")
     print(f"Average K After: {results['K After'].mean():.2f}")
+    print(f"Average message count: {results['Message Count'].mean():.2f}")
+    print(f"Total agent-to-agent messages: {int(results['Message Count'].sum())}")
 
 
 if __name__ == "__main__":
