@@ -28,7 +28,7 @@ from matplotlib.lines import Line2D
 from fvs_analysis import compute_fvs
 
 
-STATIC_TAU = 2
+STATIC_TAU = 5
 LAYOUT_SEED = 42
 ROOT = Path(__file__).resolve().parent
 EXPERIMENTS_DIR = ROOT / "experiments"
@@ -166,7 +166,58 @@ TOPOLOGIES = {
         ("executor", "summarizer"),
         ("summarizer", "supervisor"),
     ],
-    "dense_interconnected": [
+    "tau_3_multicycle": [
+        # SCC 1: two cycles overlap at researcher.
+        ("researcher", "writer"),
+        ("writer", "reviewer"),
+        ("reviewer", "researcher"),
+        ("researcher", "math"),
+        ("math", "auditor"),
+        ("auditor", "researcher"),
+        # SCC 2: two cycles overlap at planner.
+        ("planner", "coder"),
+        ("coder", "critic"),
+        ("critic", "planner"),
+        ("planner", "verifier"),
+        ("verifier", "security"),
+        ("security", "planner"),
+        # SCC 3: two cycles overlap at database.
+        ("database", "api"),
+        ("api", "executor"),
+        ("executor", "database"),
+        ("database", "summarizer"),
+        ("summarizer", "supervisor"),
+        ("supervisor", "database"),
+        # One-way SCC bridges preserve three distinct cyclic components.
+        ("reviewer", "planner"),
+        ("security", "database"),
+    ],
+    "tau_4_interconnected": [
+        # Four SCCs, each containing cycles that overlap at a common hub.
+        ("researcher", "writer"),
+        ("writer", "reviewer"),
+        ("reviewer", "researcher"),
+        ("researcher", "math"),
+        ("math", "researcher"),
+        ("auditor", "planner"),
+        ("planner", "security"),
+        ("security", "auditor"),
+        ("auditor", "database"),
+        ("database", "auditor"),
+        ("coder", "critic"),
+        ("critic", "verifier"),
+        ("verifier", "coder"),
+        ("coder", "api"),
+        ("api", "coder"),
+        ("executor", "summarizer"),
+        ("summarizer", "supervisor"),
+        ("supervisor", "executor"),
+        # One-way bridges interconnect the SCCs without merging them.
+        ("reviewer", "auditor"),
+        ("security", "coder"),
+        ("verifier", "executor"),
+    ],
+    "tau_5_dense": [
         ("researcher", "writer"),
         ("writer", "reviewer"),
         ("reviewer", "researcher"),
@@ -193,7 +244,18 @@ TOPOLOGY_TRACE_IDS = {
     "tau_0_dag": "A",
     "tau_1_hub": "B",
     "tau_2_clusters": "C",
-    "dense_interconnected": "D",
+    "tau_3_multicycle": "D",
+    "tau_4_interconnected": "E",
+    "tau_5_dense": "F",
+}
+
+EXPECTED_TOPOLOGY_TAU = {
+    "tau_0_dag": 0,
+    "tau_1_hub": 1,
+    "tau_2_clusters": 2,
+    "tau_3_multicycle": 3,
+    "tau_4_interconnected": 4,
+    "tau_5_dense": 5,
 }
 
 
@@ -558,8 +620,10 @@ def write_metadata(experiment_id: str, path: Path, run_count: int) -> None:
         "node_count": len(NODES),
         "nodes": NODES,
         "topologies": list(TOPOLOGIES),
+        "topology_tau": EXPECTED_TOPOLOGY_TAU,
         "prompt_count": len(PROMPTS),
         "run_count": run_count,
+        "summary_files": ["summary_by_topology.csv", "summary_by_tau.csv"],
         "compromised_node_rotation": COMPROMISED_NODES,
         "communication_model": (
             "Deterministic simulation: one source execution and one message per "
@@ -572,7 +636,43 @@ def write_metadata(experiment_id: str, path: Path, run_count: int) -> None:
     path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
 
 
-def write_validation_report(results: pd.DataFrame, path: Path) -> None:
+def build_grouped_summaries(results: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Aggregate run metrics by topology and by observed runtime tau."""
+    aggregations = {
+        "Runs": ("Run ID", "count"),
+        "Mean K Before": ("K Before", "mean"),
+        "Mean K After": ("K After", "mean"),
+        "Containment Success Rate (%)": ("Containment Success", lambda values: values.mean() * 100),
+        "Mean Message Count": ("Message Count", "mean"),
+        "Total Message Count": ("Message Count", "sum"),
+    }
+    by_topology = (
+        results.groupby(["Topology", "Runtime τ_FVS"], sort=False)
+        .agg(**aggregations)
+        .reset_index()
+    )
+    by_tau = (
+        results.groupby("Runtime τ_FVS", sort=True)
+        .agg(Topologies=("Topology", "nunique"), **aggregations)
+        .reset_index()
+    )
+    numeric_columns = [
+        "Mean K Before",
+        "Mean K After",
+        "Containment Success Rate (%)",
+        "Mean Message Count",
+    ]
+    by_topology[numeric_columns] = by_topology[numeric_columns].round(2)
+    by_tau[numeric_columns] = by_tau[numeric_columns].round(2)
+    return by_topology, by_tau
+
+
+def write_validation_report(
+    results: pd.DataFrame,
+    by_topology: pd.DataFrame,
+    by_tau: pd.DataFrame,
+    path: Path,
+) -> None:
     """Generate a conclusion from observed values without assuming success."""
     observed = sorted(int(value) for value in results["Runtime τ_FVS"].unique())
     maximum = int(results["Runtime τ_FVS"].max())
@@ -614,6 +714,12 @@ def write_validation_report(results: pd.DataFrame, path: Path) -> None:
     lines.extend(
         [
             "",
+            "Summary by topology:",
+            by_topology.to_string(index=False),
+            "",
+            "Summary by runtime τ value:",
+            by_tau.to_string(index=False),
+            "",
             "Interpretation:",
             "FVS revocation guarantees removal of directed cycles. It does not, by itself, "
             "guarantee zero downstream reachability from every compromised node.",
@@ -635,6 +741,11 @@ def run_experiment() -> tuple[str, Path, pd.DataFrame]:
         graph = build_graph(edges)
         cycles = list(nx.simple_cycles(graph))
         tau_runtime, fvs_nodes = compute_fvs(graph)
+        expected_tau = EXPECTED_TOPOLOGY_TAU[topology]
+        if tau_runtime != expected_tau:
+            raise ValueError(
+                f"{topology} has minimum FVS size {tau_runtime}; expected {expected_tau}"
+            )
         topology_analyses[topology] = {
             "graph": graph,
             "cycles": cycles,
@@ -738,8 +849,16 @@ def run_experiment() -> tuple[str, Path, pd.DataFrame]:
 
     results = pd.DataFrame.from_records(records)
     results.to_csv(experiment_dir / "results.csv", index=False)
+    by_topology, by_tau = build_grouped_summaries(results)
+    by_topology.to_csv(experiment_dir / "summary_by_topology.csv", index=False)
+    by_tau.to_csv(experiment_dir / "summary_by_tau.csv", index=False)
     save_aggregate_charts(results, graphs_dir)
-    write_validation_report(results, experiment_dir / "validation_report.txt")
+    write_validation_report(
+        results,
+        by_topology,
+        by_tau,
+        experiment_dir / "validation_report.txt",
+    )
     write_metadata(experiment_id, experiment_dir / "metadata.json", len(results))
     return experiment_id, experiment_dir, results
 
