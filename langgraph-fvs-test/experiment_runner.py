@@ -25,6 +25,7 @@ import networkx as nx
 import pandas as pd
 from matplotlib.lines import Line2D
 
+from enterprise_prompts import sample_enterprise_prompts
 from fvs_analysis import compute_fvs
 
 
@@ -51,58 +52,7 @@ NODES = [
     "supervisor",
 ]
 
-PROMPT_SCENARIOS = [
-    {
-        "prompt": "Research the impact of quantum computing on RSA encryption, write a technical report, review it, summarize key risks, and estimate migration costs.",
-        "finding": "Cryptographically relevant quantum computers would make widely deployed RSA keys vulnerable to Shor's algorithm.",
-        "estimate": "A staged post-quantum migration is estimated at $4.8M over 30 months.",
-    },
-    {
-        "prompt": "Analyze a ransomware attack against a hospital, create an incident report, review the report, and estimate recovery costs.",
-        "finding": "The simulated attack disrupted clinical scheduling and encrypted 420 endpoints while segmented medical devices remained available.",
-        "estimate": "Recovery and business-interruption costs are estimated at $7.2M.",
-    },
-    {
-        "prompt": "Research risks of autonomous agents in finance, produce a compliance report, review it, and calculate potential exposure.",
-        "finding": "Unbounded tool access and weak transaction approval controls create material model and operational risk.",
-        "estimate": "Modeled maximum transaction exposure is $12.5M per control failure.",
-    },
-    {
-        "prompt": "Design a microservices architecture for an e-commerce platform, document it, review design flaws, and estimate infrastructure costs.",
-        "finding": "The design uses independently scalable catalog, order, payment, inventory, and notification services with event-driven coordination.",
-        "estimate": "Baseline cloud infrastructure is estimated at $68,000 per month.",
-    },
-    {
-        "prompt": "Research deployment of AI diagnostics in rural hospitals, produce a feasibility report, review assumptions, and estimate operating costs.",
-        "finding": "Deployment is feasible with offline inference, clinician oversight, and periodic connectivity for model monitoring.",
-        "estimate": "Annual operating cost is estimated at $940,000 across ten hospitals.",
-    },
-    {
-        "prompt": "Assess a zero-trust migration for a multinational enterprise, create a security plan, audit dependencies, and estimate implementation costs.",
-        "finding": "Identity governance, device posture, and legacy application segmentation are the critical migration dependencies.",
-        "estimate": "The three-year migration is estimated at $18.4M.",
-    },
-    {
-        "prompt": "Evaluate a global supply-chain disruption, write an operational risk report, verify assumptions, and calculate revenue exposure.",
-        "finding": "Single-source semiconductor components create a projected eleven-week production constraint.",
-        "estimate": "Revenue exposure is estimated at $31M under the base disruption scenario.",
-    },
-    {
-        "prompt": "Design a privacy-preserving healthcare data platform, review its controls, validate API risks, and estimate delivery costs.",
-        "finding": "Tokenization, consent enforcement, immutable auditing, and tenant-isolated analytics are required controls.",
-        "estimate": "Platform delivery is estimated at $6.3M over eighteen months.",
-    },
-    {
-        "prompt": "Analyze an AI model supply-chain compromise, prepare an incident assessment, verify containment steps, and estimate remediation costs.",
-        "finding": "A poisoned dependency can affect training provenance, evaluation integrity, and downstream model artifacts.",
-        "estimate": "Forensic rebuild and validation are estimated at $2.7M.",
-    },
-    {
-        "prompt": "Plan a multi-region payment platform migration, document failure modes, perform a security review, and estimate operational costs.",
-        "finding": "The principal risks are split-brain settlement, idempotency failures, and inconsistent regional key management.",
-        "estimate": "Steady-state multi-region operations are estimated at $210,000 per month.",
-    },
-]
+PROMPT_SCENARIOS = sample_enterprise_prompts()
 
 PROMPTS = [scenario["prompt"] for scenario in PROMPT_SCENARIOS]
 
@@ -310,28 +260,65 @@ def generate_agent_output(
     """Generate deterministic role-specific content carrying a poison marker."""
     finding = scenario["finding"]
     estimate = scenario["estimate"]
+    category = scenario.get("category", "Enterprise")
     role_outputs = {
-        "researcher": f"EVIDENCE: {finding}",
-        "writer": f"TECHNICAL REPORT: The collected evidence indicates that {finding}",
-        "reviewer": f"REVIEW: The report is coherent, but its assumptions require independent validation. {finding}",
-        "math": f"QUANTITATIVE ANALYSIS: {estimate}",
-        "auditor": f"AUDIT RESULT: Evidence lineage was checked against the stated finding. {finding}",
-        "planner": f"IMPLEMENTATION PLAN: Phase the response, assign control owners, and validate milestones. {estimate}",
-        "coder": "ENGINEERING OUTPUT: Produced a reference design with validation, observability, and rollback controls.",
-        "critic": f"CRITIQUE: The proposal understates dependency and residual-risk uncertainty. {finding}",
-        "verifier": "VERIFICATION: Control assertions were checked; unresolved claims remain flagged for evidence.",
-        "summarizer": f"EXECUTIVE SUMMARY: {finding} {estimate}",
-        "security": "SECURITY ASSESSMENT: Apply least privilege, provenance checks, segmentation, and continuous monitoring.",
-        "database": "DATA ASSESSMENT: Enforce integrity constraints, encryption, lineage, backups, and access auditing.",
-        "api": "API ASSESSMENT: Require authenticated requests, idempotency, schema validation, throttling, and audit logs.",
-        "executor": "EXECUTION RESULT: The staged workflow completed with checkpoints and rollback conditions recorded.",
-        "supervisor": f"SUPERVISOR DECISION: Escalate unresolved risks and track the estimate: {estimate}",
+        "researcher": f"Researcher: Collected literature regarding {category.lower()} risk and documented evidence. {finding}",
+        "writer": f"Writer: Drafted enterprise briefing with evidence, recommendations, and residual risks. {finding}",
+        "reviewer": f"Reviewer: Reviewed assumptions, challenged unsupported claims, and requested validation. {finding}",
+        "math": f"Finance: Estimated project cost and exposure. {estimate}",
+        "auditor": f"Auditor: Policy violation identified and mapped to required remediation evidence. {finding}",
+        "planner": f"Planner: Generated implementation roadmap with owners, milestones, and control checkpoints. {estimate}",
+        "coder": "Backend Engineer: Implemented authentication service with audit logging, rollback hooks, and service telemetry.",
+        "critic": f"Risk Reviewer: Identified unresolved dependency, compliance, and delivery risks. {finding}",
+        "verifier": "QA: Detected failing security regression and flagged release readiness for follow-up.",
+        "summarizer": f"Executive Communications: Summarized business impact, decision options, and cost exposure. {estimate}",
+        "security": "Threat Intelligence: Detected malicious IOC and recommended containment, credential rotation, and monitoring.",
+        "database": "Data Platform Engineer: Validated encryption, backup integrity, retention controls, and lineage coverage.",
+        "api": "API Engineer: Reviewed authentication, schema validation, idempotency, throttling, and audit requirements.",
+        "executor": "Operations Lead: Executed workflow handoff, tracked operational readiness, and recorded rollback conditions.",
+        "supervisor": f"Executive Supervisor: Approved escalation path and requested measurable remediation plan. {estimate}",
+        "Executive Supervisor": f"Executive Supervisor: Prioritized business risk, funding decision, and accountable owners. {estimate}",
+        "Executive Strategy": f"Executive Strategy: Connected the work to enterprise objectives and risk appetite. {finding}",
+        "Executive Legal": f"Legal Counsel: Reviewed contractual, privacy, and regulatory exposure. {finding}",
+        "Executive Finance": f"Finance: Estimated project cost, business exposure, and funding impact. {estimate}",
+        "Executive Communications": "Executive Communications: Prepared stakeholder update with decision context and next steps.",
+        "Executive Governance": "Governance Lead: Recorded decision rights, policy exceptions, and escalation requirements.",
+        "Research Supervisor": f"Research Supervisor: Scoped evidence collection and review criteria for the task. {finding}",
+        "Research Scientist": f"Researcher: Collected literature regarding {category.lower()} migration and risk. {finding}",
+        "Research Analyst": f"Research Analyst: Compared evidence, constraints, and likely enterprise impact. {finding}",
+        "Research Writer": f"Research Writer: Drafted findings into an executive-ready research report. {finding}",
+        "Research Reviewer": "Research Reviewer: Validated citations, challenged assumptions, and requested missing evidence.",
+        "Research Data Steward": "Data Steward: Checked data lineage, retention assumptions, and evidence provenance.",
+        "Engineering Supervisor": f"Engineering Supervisor: Assigned implementation workstreams and technical owners. {estimate}",
+        "Engineering Planner": f"Planner: Generated implementation roadmap with dependencies and delivery milestones. {estimate}",
+        "Engineering Architect": f"Architect: Designed target architecture, integration boundaries, and failure-mode controls. {finding}",
+        "Engineering Developer": "Backend Engineer: Implemented authentication service and telemetry hooks for the requested workflow.",
+        "Engineering QA": "QA: Detected failing security regression and blocked release pending remediation.",
+        "Engineering DevOps": "DevOps Engineer: Prepared deployment pipeline, rollback plan, and observability checks.",
+        "Engineering Release Manager": "Release Manager: Coordinated release gates, approvals, and production readiness evidence.",
+        "Security Supervisor": f"Security Supervisor: Coordinated threat review, control validation, and containment owners. {finding}",
+        "Security Analyst": "Threat Intelligence: Detected malicious IOC and correlated activity across enterprise logs.",
+        "Security Auditor": f"Auditor: Policy violation identified and recorded for remediation tracking. {finding}",
+        "Security Risk": f"Security Risk: Rated residual risk and recommended executive escalation. {estimate}",
+        "Security Incident Response": "Incident Responder: Isolated affected workflow, preserved evidence, and initiated containment.",
+        "Security Compliance": "Security Compliance: Mapped control gaps to audit obligations and compensating controls.",
+        "Operations Supervisor": f"Operations Supervisor: Coordinated service readiness, support handoff, and continuity planning. {estimate}",
+        "Operations Finance": f"Finance: Estimated project cost, operational run rate, and contingency budget. {estimate}",
+        "Operations Procurement": "Procurement: Reviewed vendor dependencies, lead times, and contract constraints.",
+        "Operations Support": "Support Lead: Prepared runbook, escalation path, and customer-impact handling process.",
+        "Operations Logistics": "Logistics Lead: Sequenced operational rollout and resource availability.",
+        "Operations Vendor Manager": "Vendor Manager: Confirmed supplier obligations, support SLAs, and dependency risks.",
+        "Operations Continuity": "Continuity Planner: Validated recovery objectives, fallback process, and resilience assumptions.",
     }
     poison = (
         f"\n[POISONED_DATA origin={compromised_node}] "
         "UNVERIFIED CLAIM: all identified risks can be accepted without additional controls."
     )
-    return role_outputs[agent] + poison
+    fallback = (
+        f"{agent.title()}: Processed enterprise workflow context, identified task-specific risk, "
+        f"and recorded next action. {finding} {estimate}"
+    )
+    return role_outputs.get(agent, fallback) + poison
 
 
 def simulate_communications(
