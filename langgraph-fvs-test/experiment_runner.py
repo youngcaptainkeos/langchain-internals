@@ -1959,19 +1959,90 @@ def save_baseline_plots(policy_records: dict[str, list[dict]], figures_dir: Path
     plt.close(fig)
     
     # 5. Revocation Cost Comparison
-    fig, ax = plt.subplots(figsize=(10, 6))
-    cost_means = [np.mean(pd.DataFrame(policy_records[b])["FVS Size"]) for b in baselines]
-    bars = ax.bar(labels, cost_means, color="#e74c3c", edgecolor="black")
-    ax.set_ylabel("Average Revoked Agents (Cost)", fontsize=11, fontweight="bold")
-    ax.set_title("Operational Containment Cost by Policy", fontsize=13, fontweight="bold")
-    plt.xticks(rotation=30, ha="right")
+    fig, ax = plt.subplots(figsize=(12, 7.5))
+    import scipy.stats
+    
+    color_map = {
+        "runtime_fvs": "#2E8B57",
+        "static_fvs": "#F4A261",
+        "degree_centrality": "#4C78A8",
+        "betweenness_centrality": "#4C78A8",
+        "pagerank": "#4C78A8",
+        "random_revocation": "#4C78A8",
+        "supervisor_only": "#9C6ADE",
+        "compromised_only": "#8C8C8C",
+        "no_containment": "#D3D3D3",
+        "department_isolation": "#D2B48C"
+    }
+    
+    cost_means = []
+    cost_errors = []
+    colors = []
+    for b in baselines:
+        vals = pd.DataFrame(policy_records[b])["FVS Size"].to_numpy()
+        mean = np.mean(vals)
+        std = np.std(vals, ddof=1) if len(vals) > 1 else 0.0
+        n = len(vals)
+        t_crit = scipy.stats.t.ppf(0.975, df=n-1) if n > 1 else 1.96
+        margin = t_crit * (std / np.sqrt(n)) if n > 0 else 0.0
+        
+        cost_means.append(mean)
+        cost_errors.append(margin)
+        colors.append(color_map.get(b, "#4C78A8"))
+        
+    bars = ax.bar(
+        labels, 
+        cost_means, 
+        yerr=cost_errors, 
+        color=colors, 
+        edgecolor="black", 
+        error_kw=dict(ecolor="black", lw=1.5, capsize=4)
+    )
+    ax.set_ylabel("Average Revocation Budget (Nodes)", fontsize=12, fontweight="bold")
+    ax.set_title("Operational Revocation Budget by Policy", fontsize=14, fontweight="bold")
+    ax.set_xticks(range(len(labels)))
+    ax.set_xticklabels(labels, rotation=25, ha="right", fontsize=11)
     ax.grid(axis="y", linestyle="--", alpha=0.5)
-    for bar in bars:
+    
+    # Calculate padding for text labels on top of bars
+    ax.set_ylim(0, max(cost_means) * 1.28 if max(cost_means) > 0 else 1.0)
+    
+    for idx, bar in enumerate(bars):
         height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2.0, height + (max(cost_means)*0.02 if max(cost_means) > 0 else 0.1), f"{height:.2f}", ha="center", va="bottom", fontsize=8.5, fontweight="bold")
-    fig.tight_layout()
-    fig.savefig(figures_dir / "baseline_revocation_cost.png", dpi=600)
-    fig.savefig(figures_dir / "baseline_revocation_cost.pdf")
+        ci = cost_errors[idx]
+        b_key = baselines[idx]
+        
+        if b_key in ["runtime_fvs", "static_fvs"]:
+            label_text = f"{height:.2f}\n± {ci:.2f}"
+            offset = 0.15 if height == 0 else height * 0.06
+        else:
+            label_text = f"{height:.2f}"
+            offset = 0.05 if height == 0 else height * 0.02
+            
+        ax.text(
+            bar.get_x() + bar.get_width()/2.0, 
+            height + offset + ci, 
+            label_text, 
+            ha="center", 
+            va="bottom", 
+            fontsize=9.5, 
+            fontweight="bold"
+        )
+        
+    # Publication-style note below the figure
+    note_text = (
+        "Note: Degree Centrality, Betweenness Centrality, PageRank, Random Revocation, and Runtime FVS "
+        "operate under an identical runtime revocation budget (tau_runtime). Static FVS computes the minimum "
+        "feedback vertex set on the static enterprise trust graph and therefore exhibits a larger average revocation budget."
+    )
+    fig.text(0.05, 0.02, note_text, fontsize=9.5, wrap=True, family="sans-serif", style="italic")
+    
+    plt.subplots_adjust(bottom=0.22)
+    
+    fig.savefig(figures_dir / "baseline_revocation_cost.png", dpi=600, bbox_inches="tight")
+    fig.savefig(figures_dir / "baseline_revocation_cost.pdf", bbox_inches="tight")
+    fig.savefig(figures_dir / "operational_revocation_budget.png", dpi=600, bbox_inches="tight")
+    fig.savefig(figures_dir / "operational_revocation_budget.pdf", bbox_inches="tight")
     plt.close(fig)
     
     # 6. Runtime Comparison

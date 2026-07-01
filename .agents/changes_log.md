@@ -38,7 +38,7 @@ This file records all architectural and logic changes implemented in the Runtime
   2. `baseline_k_footprint.png`/`.pdf`: Boxplot comparing K_before vs K_after for all baselines.
   3. `baseline_propagation_depth.png`/`.pdf`: Boxplot comparing propagation depth after containment.
   4. `baseline_message_reduction.png`/`.pdf`: Bar chart of message count reduction.
-  5. `baseline_revocation_cost.png`/`.pdf`: Operational cost comparison (FVS size).
+  5. `baseline_revocation_cost.png`/`.pdf` and `operational_revocation_budget.png`/`.pdf`: Upgraded to top-tier publication quality with black error bars, Student's t 95% confidence intervals, statistical annotations on Runtime FVS and Static FVS, and a detailed figure caption note at the bottom.
   6. `baseline_runtime_comparison.png`/`.pdf`: Computational execution overhead (log scale).
   7. `baseline_pareto_frontier.png`/`.pdf`: Scatter plot of Containment Ratio vs Operational Cost with highlighted Pareto frontier.
   8. `baseline_tau_distribution.png`/`.pdf`: Distribution of revocation size by policy.
