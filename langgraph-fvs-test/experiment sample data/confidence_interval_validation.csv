@@ -1,0 +1,74 @@
+baseline,metric,reported_ci,recomputed_student_t_ci,recomputed_normal_ci,mean,std,n,t_critical,status,absolute_difference_vs_student_t
+No Containment,Containment Ratio,"[0.000, 0.000]","[0.000, 0.000]","[0.000, 0.000]",0.0,0.0,200,1.9719565442517533,Pass,0.0
+No Containment,Containment Gain,"[0.000, 0.000]","[0.000, 0.000]","[0.000, 0.000]",0.0,0.0,200,1.9719565442517533,Pass,0.0
+No Containment,K After,N/A,"[12.108, 13.582]","[12.113, 13.577]",12.845,5.2820902478975755,200,1.9719565442517533,Not Reported in Summary,0.0
+No Containment,Message Count After,"[21.034, 23.386]","[21.026, 23.394]","[21.034, 23.386]",22.21,8.487999213788036,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0075528977070646874
+No Containment,Propagation Depth After,N/A,"[6.078, 6.722]","[6.080, 6.720]",6.4,2.3101262773029156,200,1.9719565442517533,Not Reported in Summary,0.0
+No Containment,FVS Size,"[0.000, 0.000]","[0.000, 0.000]","[0.000, 0.000]",0.0,0.0,200,1.9719565442517533,Pass,0.0
+No Containment,Runtime Execution Time,"[0.000, 0.000]","[0.000, 0.000]","[0.000, 0.000]",0.00012100350111722947,4.937290735572777e-05,200,1.9719565442517533,Pass,0.00012788797955523055
+Random Revocation,Containment Ratio,"[0.653, 0.685]","[0.653, 0.685]","[0.653, 0.685]",0.6691368630218076,0.11343040161283348,200,1.9719565442517533,Pass,0.00032031107174779194
+Random Revocation,Containment Gain,"[8.366, 9.679]","[8.362, 9.683]","[8.366, 9.679]",9.02255,4.73399222744902,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0036502282632788763
+Random Revocation,K After,N/A,"[3.663, 3.982]","[3.664, 3.981]",3.822450000000001,1.1415908398934547,200,1.9719565442517533,Not Reported in Summary,0.0
+Random Revocation,Message Count After,"[5.751, 6.264]","[5.749, 6.266]","[5.751, 6.264]",6.0074000000000005,1.85281538862392,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0019535845007956354
+Random Revocation,Propagation Depth After,N/A,"[2.468, 2.623]","[2.469, 2.622]",2.5455,0.5533195847013463,200,1.9719565442517533,Not Reported in Summary,0.0
+Random Revocation,FVS Size,"[3.420, 3.730]","[3.419, 3.731]","[3.420, 3.730]",3.575,1.1183148665306732,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0009360183117377296
+Random Revocation,Runtime Execution Time,"[0.000, 0.000]","[0.000, 0.000]","[0.000, 0.000]",6.380261507292743e-05,1.5403474693287334e-05,200,1.9719565442517533,Pass,6.595045069930015e-05
+Degree Centrality,Containment Ratio,"[0.908, 0.935]","[0.908, 0.935]","[0.908, 0.935]",0.9216529268807924,0.09513075770417519,200,1.9719565442517533,Pass,0.00038804771363265544
+Degree Centrality,Containment Gain,"[11.184, 12.646]","[11.180, 12.650]","[11.184, 12.646]",11.915,5.274169062182441,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.004421613423685855
+Degree Centrality,K After,N/A,"[0.778, 1.082]","[0.779, 1.081]",0.93,1.0867405509714028,200,1.9719565442517533,Not Reported in Summary,0.0
+Degree Centrality,Message Count After,"[0.949, 1.341]","[0.948, 1.342]","[0.949, 1.341]",1.145,1.4156252946575842,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.001392504094221092
+Degree Centrality,Propagation Depth After,N/A,"[0.772, 1.068]","[0.773, 1.067]",0.92,1.0626599790882212,200,1.9719565442517533,Not Reported in Summary,0.0
+Degree Centrality,FVS Size,"[3.420, 3.730]","[3.419, 3.731]","[3.420, 3.730]",3.575,1.1183148665306732,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0009360183117377296
+Degree Centrality,Runtime Execution Time,"[0.000, 0.000]","[0.000, 0.000]","[0.000, 0.000]",9.237399994162843e-05,5.682860207515841e-05,200,1.9719565442517533,Pass,0.00010029808840636789
+Betweenness Centrality,Containment Ratio,"[0.896, 0.944]","[0.896, 0.944]","[0.896, 0.944]",0.920239967355486,0.17369828505902551,200,1.9719565442517533,Pass,0.0004601756083811859
+Betweenness Centrality,Containment Gain,"[11.277, 12.763]","[11.272, 12.768]","[11.277, 12.763]",12.02,5.3640905414322955,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0049601192189481225
+Betweenness Centrality,K After,N/A,"[0.634, 1.016]","[0.635, 1.015]",0.825,1.3725137412241983,200,1.9719565442517533,Not Reported in Summary,0.0
+Betweenness Centrality,Message Count After,"[1.017, 1.643]","[1.016, 1.644]","[1.017, 1.643]",1.33,2.25533426864325,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.001480166847175779
+Betweenness Centrality,Propagation Depth After,N/A,"[0.604, 0.956]","[0.605, 0.955]",0.78,1.2607726752644455,200,1.9719565442517533,Not Reported in Summary,0.0
+Betweenness Centrality,FVS Size,"[3.420, 3.730]","[3.419, 3.731]","[3.420, 3.730]",3.575,1.1183148665306732,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0009360183117377296
+Betweenness Centrality,Runtime Execution Time,"[0.000, 0.001]","[0.000, 0.001]","[0.000, 0.001]",0.0004889049966004677,0.00027000742744809467,200,1.9719565442517533,Pass,0.00047344560392273795
+PageRank,Containment Ratio,"[0.953, 0.982]","[0.953, 0.982]","[0.953, 0.982]",0.967540609631167,0.10345811783541642,200,1.9719565442517533,Pass,0.00011457682045235007
+PageRank,Containment Gain,"[11.756, 13.254]","[11.751, 13.259]","[11.756, 13.254]",12.505,5.404258045756663,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.004561011129913695
+PageRank,K After,N/A,"[0.195, 0.485]","[0.196, 0.484]",0.34,1.0391337714533555,200,1.9719565442517533,Not Reported in Summary,0.0
+PageRank,Message Count After,"[0.324, 0.786]","[0.323, 0.787]","[0.324, 0.786]",0.555,1.6645807717646635,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0011064536256359947
+PageRank,Propagation Depth After,N/A,"[0.197, 0.463]","[0.198, 0.462]",0.33,0.9516449656797002,200,1.9719565442517533,Not Reported in Summary,0.0
+PageRank,FVS Size,"[3.420, 3.730]","[3.419, 3.731]","[3.420, 3.730]",3.575,1.1183148665306732,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0009360183117377296
+PageRank,Runtime Execution Time,"[-0.001, 0.013]","[-0.002, 0.014]","[-0.001, 0.013]",0.006002947998640593,0.05398103439729315,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0005299762267250204
+Supervisor Only,Containment Ratio,"[0.874, 0.905]","[0.873, 0.905]","[0.874, 0.905]",0.8893607583304631,0.11407041751684417,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0005450364032835164
+Supervisor Only,Containment Gain,"[10.703, 11.987]","[10.699, 11.991]","[10.703, 11.987]",11.345,4.630679318930849,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0036944432051697618
+Supervisor Only,K After,N/A,"[1.288, 1.712]","[1.290, 1.710]",1.5,1.5170720278511638,200,1.9719565442517533,Not Reported in Summary,0.0
+Supervisor Only,Message Count After,"[1.639, 2.181]","[1.637, 2.183]","[1.639, 2.181]",1.91,1.9547391194544677,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0015656648664086337
+Supervisor Only,Propagation Depth After,N/A,"[1.185, 1.555]","[1.186, 1.554]",1.37,1.3273694089207773,200,1.9719565442517533,Not Reported in Summary,0.0
+Supervisor Only,FVS Size,"[3.194, 3.456]","[3.193, 3.457]","[3.194, 3.456]",3.325,0.945433350958981,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0008296990766365475
+Supervisor Only,Runtime Execution Time,"[0.000, 0.000]","[0.000, 0.000]","[0.000, 0.000]",8.308700140332803e-05,5.577823857844242e-05,200,1.9719565442517533,Pass,9.086462887898486e-05
+Department Isolation,Containment Ratio,"[0.621, 0.674]","[0.621, 0.674]","[0.621, 0.674]",0.6474310242361797,0.19057081228687528,200,1.9719565442517533,Pass,0.0001418619552011613
+Department Isolation,Containment Gain,"[8.323, 9.757]","[8.319, 9.761]","[8.323, 9.757]",9.04,5.17224910498519,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.004210059247405695
+Department Isolation,K After,N/A,"[3.648, 3.962]","[3.649, 3.961]",3.805,1.128424436345967,200,1.9719565442517533,Not Reported in Summary,0.0
+Department Isolation,Message Count After,"[6.543, 7.047]","[6.541, 7.049]","[6.543, 7.047]",6.795,1.8192093373400782,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0016676110015447776
+Department Isolation,Propagation Depth After,N/A,"[2.689, 2.951]","[2.690, 2.950]",2.82,0.9391539012596691,200,1.9719565442517533,Not Reported in Summary,0.0
+Department Isolation,FVS Size,"[0.000, 0.000]","[0.000, 0.000]","[0.000, 0.000]",0.0,0.0,200,1.9719565442517533,Pass,0.0
+Department Isolation,Runtime Execution Time,"[0.000, 0.000]","[0.000, 0.000]","[0.000, 0.000]",9.015299991006032e-05,5.43014965627577e-05,200,1.9719565442517533,Pass,9.772471286477914e-05
+Static FVS,Containment Ratio,"[0.930, 0.964]","[0.930, 0.964]","[0.930, 0.964]",0.9471145516420285,0.12028442425648851,200,1.9719565442517533,Pass,0.0003422858474538826
+Static FVS,Containment Gain,"[11.530, 13.010]","[11.526, 13.014]","[11.530, 13.010]",12.27,5.336618544306608,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.004129468321727003
+Static FVS,K After,N/A,"[0.412, 0.738]","[0.413, 0.737]",0.575,1.1709957966529574,200,1.9719565442517533,Not Reported in Summary,0.0
+Static FVS,Message Count After,"[0.673, 1.207]","[0.672, 1.208]","[0.673, 1.207]",0.94,1.9248180753296087,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0013935228121454424
+Static FVS,Propagation Depth After,N/A,"[0.351, 0.629]","[0.352, 0.628]",0.49,0.9974338934783078,200,1.9719565442517533,Not Reported in Summary,0.0
+Static FVS,FVS Size,"[4.000, 4.340]","[3.999, 4.341]","[4.000, 4.340]",4.17,1.228268381128653,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.001267758753480841
+Static FVS,Runtime Execution Time,"[0.000, 0.000]","[0.000, 0.000]","[0.000, 0.000]",8.022900321520865e-05,6.264515824186412e-05,200,1.9719565442517533,Pass,8.896414287498093e-05
+Oracle Compromised Node,Containment Ratio,"[1.000, 1.000]","[1.000, 1.000]","[1.000, 1.000]",1.0,0.0,200,1.9719565442517533,Pass,0.0
+Oracle Compromised Node,Containment Gain,"[12.113, 13.577]","[12.108, 13.582]","[12.113, 13.577]",12.845,5.2820902478975755,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.004526130762847913
+Oracle Compromised Node,K After,N/A,"[0.000, 0.000]","[0.000, 0.000]",0.0,0.0,200,1.9719565442517533,Not Reported in Summary,0.0
+Oracle Compromised Node,Message Count After,"[0.000, 0.000]","[0.000, 0.000]","[0.000, 0.000]",0.0,0.0,200,1.9719565442517533,Pass,0.0
+Oracle Compromised Node,Propagation Depth After,N/A,"[0.000, 0.000]","[0.000, 0.000]",0.0,0.0,200,1.9719565442517533,Not Reported in Summary,0.0
+Oracle Compromised Node,FVS Size,"[1.000, 1.000]","[1.000, 1.000]","[1.000, 1.000]",1.0,0.0,200,1.9719565442517533,Pass,0.0
+Oracle Compromised Node,Runtime Execution Time,"[0.000, 0.000]","[0.000, 0.000]","[0.000, 0.000]",0.00011953499575611204,0.0007000330971081575,200,1.9719565442517533,Pass,0.00021714647988859632
+Runtime FVS,Containment Ratio,"[0.968, 0.980]","[0.968, 0.980]","[0.968, 0.980]",0.9742911930905351,0.04339368802688397,200,1.9719565442517533,Pass,0.00034193884496303006
+Runtime FVS,Containment Gain,"[11.810, 13.270]","[11.806, 13.274]","[11.810, 13.270]",12.54,5.266600936765162,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.004366326242076113
+Runtime FVS,K After,N/A,"[0.235, 0.375]","[0.235, 0.375]",0.305,0.5032307681672006,200,1.9719565442517533,Not Reported in Summary,0.0
+Runtime FVS,Message Count After,"[0.235, 0.375]","[0.235, 0.375]","[0.235, 0.375]",0.305,0.5032307681672006,200,1.9719565442517533,Pass,0.00016968532609420994
+Runtime FVS,Propagation Depth After,N/A,"[0.235, 0.375]","[0.235, 0.375]",0.305,0.5032307681672006,200,1.9719565442517533,Not Reported in Summary,0.0
+Runtime FVS,FVS Size,"[3.420, 3.730]","[3.419, 3.731]","[3.420, 3.730]",3.575,1.1183148665306732,200,1.9719565442517533,Precision discrepancy (using Normal approximation instead of Student t),0.0009360183117377296
+Runtime FVS,Runtime Execution Time,"[0.000, 0.000]","[0.000, 0.000]","[0.000, 0.000]",7.521349471062422e-05,6.452655540915622e-05,200,1.9719565442517533,Pass,8.421097335193991e-05
+Runtime FVS (Before),K Before,N/A,"[12.108, 13.582]","[12.113, 13.577]",12.845,5.2820902478975755,200,1.9719565442517533,Verified (Not reported in baseline comparisons summary),0.0
+Runtime FVS (Before),Message Count Before,N/A,"[21.026, 23.394]","[21.034, 23.386]",22.21,8.487999213788036,200,1.9719565442517533,Verified (Not reported in baseline comparisons summary),0.0
+Runtime FVS (Before),Propagation Depth Before,N/A,"[6.078, 6.722]","[6.080, 6.720]",6.4,2.3101262773029156,200,1.9719565442517533,Verified (Not reported in baseline comparisons summary),0.0

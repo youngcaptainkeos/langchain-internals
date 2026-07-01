@@ -1,0 +1,313 @@
+{
+  "experiment": "exp_031",
+  "run_id": "run_141",
+  "prompt": "Prepare a competitive landscape analysis of digital lending platform entrants to support the executive committee's strategic review of the bank's personal loan product roadmap for the next fiscal year.",
+  "topology": "workflow_executive_to_operations_to_security_to_executive",
+  "runtime_tau": 3,
+  "compromise_source": "Executive Communications",
+  "fvs_nodes": [
+    "Executive Supervisor",
+    "Operations Support",
+    "Security Supervisor"
+  ],
+  "k_before": 10,
+  "k_after": 0,
+  "message_count": 17,
+  "message_count_after_revocation": 0,
+  "infected_nodes": [
+    "Executive Supervisor",
+    "Executive Strategy",
+    "Operations Supervisor",
+    "Operations Continuity",
+    "Operations Vendor Manager",
+    "Security Supervisor",
+    "Operations Logistics",
+    "Security Compliance",
+    "Security Risk",
+    "Operations Support"
+  ],
+  "infected_nodes_after_revocation": [],
+  "infection_paths": [
+    [
+      "Executive Communications",
+      "Executive Supervisor"
+    ],
+    [
+      "Executive Communications",
+      "Executive Supervisor",
+      "Executive Strategy"
+    ],
+    [
+      "Executive Communications",
+      "Executive Supervisor",
+      "Operations Supervisor"
+    ],
+    [
+      "Executive Communications",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Operations Continuity"
+    ],
+    [
+      "Executive Communications",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Operations Vendor Manager"
+    ],
+    [
+      "Executive Communications",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Security Supervisor"
+    ],
+    [
+      "Executive Communications",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Operations Continuity",
+      "Operations Logistics"
+    ],
+    [
+      "Executive Communications",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Security Supervisor",
+      "Security Compliance"
+    ],
+    [
+      "Executive Communications",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Security Supervisor",
+      "Security Risk"
+    ],
+    [
+      "Executive Communications",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Operations Continuity",
+      "Operations Logistics",
+      "Operations Support"
+    ]
+  ],
+  "infection_paths_after_revocation": [],
+  "steps": [
+    {
+      "sequence": 0,
+      "agent": "Executive Communications",
+      "from_agent": null,
+      "input": "Prepare a competitive landscape analysis of digital lending platform entrants to support the executive committee's strategic review of the bank's personal loan product roadmap for the next fiscal year.",
+      "output": "Executive Communications: Prepared stakeholder update with decision context and next steps.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": true,
+      "poisoned_data_observed": true,
+      "message_type": "source_execution"
+    },
+    {
+      "sequence": 1,
+      "agent": "Executive Supervisor",
+      "from_agent": "Executive Communications",
+      "input": "Executive Communications: Prepared stakeholder update with decision context and next steps.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Executive Supervisor: Prioritized business risk, funding decision, and accountable owners. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 2,
+      "agent": "Executive Strategy",
+      "from_agent": "Executive Supervisor",
+      "input": "Executive Supervisor: Prioritized business risk, funding decision, and accountable owners. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Executive Strategy: Connected the work to enterprise objectives and risk appetite. identified risk in banking\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 3,
+      "agent": "Executive Communications",
+      "from_agent": "Executive Supervisor",
+      "input": "Executive Supervisor: Prioritized business risk, funding decision, and accountable owners. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Executive Communications: Prepared stakeholder update with decision context and next steps.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": true,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 4,
+      "agent": "Operations Supervisor",
+      "from_agent": "Executive Supervisor",
+      "input": "Executive Supervisor: Prioritized business risk, funding decision, and accountable owners. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Operations Supervisor: Coordinated service readiness, support handoff, and continuity planning. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 5,
+      "agent": "Executive Supervisor",
+      "from_agent": "Executive Strategy",
+      "input": "Executive Strategy: Connected the work to enterprise objectives and risk appetite. identified risk in banking\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Executive Supervisor: Prioritized business risk, funding decision, and accountable owners. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 6,
+      "agent": "Operations Continuity",
+      "from_agent": "Operations Supervisor",
+      "input": "Operations Supervisor: Coordinated service readiness, support handoff, and continuity planning. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Continuity Planner: Validated recovery objectives, fallback process, and resilience assumptions.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 7,
+      "agent": "Operations Vendor Manager",
+      "from_agent": "Operations Supervisor",
+      "input": "Operations Supervisor: Coordinated service readiness, support handoff, and continuity planning. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Vendor Manager: Confirmed supplier obligations, support SLAs, and dependency risks.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 8,
+      "agent": "Security Supervisor",
+      "from_agent": "Operations Supervisor",
+      "input": "Operations Supervisor: Coordinated service readiness, support handoff, and continuity planning. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Security Supervisor: Coordinated threat review, control validation, and containment owners. identified risk in banking\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 9,
+      "agent": "Operations Logistics",
+      "from_agent": "Operations Continuity",
+      "input": "Continuity Planner: Validated recovery objectives, fallback process, and resilience assumptions.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Logistics Lead: Sequenced operational rollout and resource availability.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 10,
+      "agent": "Operations Logistics",
+      "from_agent": "Operations Vendor Manager",
+      "input": "Vendor Manager: Confirmed supplier obligations, support SLAs, and dependency risks.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Logistics Lead: Sequenced operational rollout and resource availability.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 11,
+      "agent": "Security Compliance",
+      "from_agent": "Security Supervisor",
+      "input": "Security Supervisor: Coordinated threat review, control validation, and containment owners. identified risk in banking\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Security Compliance: Mapped control gaps to audit obligations and compensating controls.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 12,
+      "agent": "Security Risk",
+      "from_agent": "Security Supervisor",
+      "input": "Security Supervisor: Coordinated threat review, control validation, and containment owners. identified risk in banking\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Security Risk: Rated residual risk and recommended executive escalation. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 13,
+      "agent": "Operations Support",
+      "from_agent": "Operations Logistics",
+      "input": "Logistics Lead: Sequenced operational rollout and resource availability.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Support Lead: Prepared runbook, escalation path, and customer-impact handling process.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 14,
+      "agent": "Security Supervisor",
+      "from_agent": "Security Compliance",
+      "input": "Security Compliance: Mapped control gaps to audit obligations and compensating controls.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Security Supervisor: Coordinated threat review, control validation, and containment owners. identified risk in banking\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 15,
+      "agent": "Security Compliance",
+      "from_agent": "Security Risk",
+      "input": "Security Risk: Rated residual risk and recommended executive escalation. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Security Compliance: Mapped control gaps to audit obligations and compensating controls.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 16,
+      "agent": "Executive Supervisor",
+      "from_agent": "Security Risk",
+      "input": "Security Risk: Rated residual risk and recommended executive escalation. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Executive Supervisor: Prioritized business risk, funding decision, and accountable owners. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 17,
+      "agent": "Operations Supervisor",
+      "from_agent": "Operations Support",
+      "input": "Support Lead: Prepared runbook, escalation path, and customer-impact handling process.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Operations Supervisor: Coordinated service readiness, support handoff, and continuity planning. exposure estimated at $1.5M\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    }
+  ],
+  "post_revocation_steps": [
+    {
+      "sequence": 0,
+      "agent": "Executive Communications",
+      "from_agent": null,
+      "input": "Prepare a competitive landscape analysis of digital lending platform entrants to support the executive committee's strategic review of the bank's personal loan product roadmap for the next fiscal year.",
+      "output": "Executive Communications: Prepared stakeholder update with decision context and next steps.\n[POISONED_DATA origin=Executive Communications] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": true,
+      "poisoned_data_observed": true,
+      "message_type": "source_execution"
+    }
+  ],
+  "trace_semantics": "Deterministic simulation; each reachable directed edge transmits at most once, preventing infinite replay through cycles.",
+  "route": [
+    "Executive",
+    "Operations",
+    "Security",
+    "Executive"
+  ],
+  "active_nodes_list": [
+    "Executive Communications",
+    "Executive Strategy",
+    "Executive Supervisor",
+    "Operations Continuity",
+    "Operations Logistics",
+    "Operations Supervisor",
+    "Operations Support",
+    "Operations Vendor Manager",
+    "Security Compliance",
+    "Security Risk",
+    "Security Supervisor"
+  ],
+  "depth_before": 5,
+  "depth_after": 0,
+  "affected_depts_before": 3,
+  "affected_depts_after": 1,
+  "containment_efficiency": 1.0
+}

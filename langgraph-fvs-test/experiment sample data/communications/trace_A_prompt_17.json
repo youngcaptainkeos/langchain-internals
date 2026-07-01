@@ -1,0 +1,299 @@
+{
+  "experiment": "exp_031",
+  "run_id": "run_017",
+  "prompt": "Design and deploy a real-time route optimization engine integrated with warehouse management and last-mile delivery systems, requiring cross-team coordination between software engineers, data scientists, and operations planners.",
+  "topology": "workflow_executive_to_operations_to_research_to_executive",
+  "runtime_tau": 3,
+  "compromise_source": "Executive Strategy",
+  "fvs_nodes": [
+    "Research Analyst",
+    "Executive Supervisor",
+    "Operations Supervisor"
+  ],
+  "k_before": 9,
+  "k_after": 0,
+  "message_count": 16,
+  "message_count_after_revocation": 0,
+  "infected_nodes": [
+    "Executive Supervisor",
+    "Operations Supervisor",
+    "Operations Finance",
+    "Operations Continuity",
+    "Operations Procurement",
+    "Research Supervisor",
+    "Operations Logistics",
+    "Research Analyst",
+    "Research Data Steward"
+  ],
+  "infected_nodes_after_revocation": [],
+  "infection_paths": [
+    [
+      "Executive Strategy",
+      "Executive Supervisor"
+    ],
+    [
+      "Executive Strategy",
+      "Executive Supervisor",
+      "Operations Supervisor"
+    ],
+    [
+      "Executive Strategy",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Operations Continuity"
+    ],
+    [
+      "Executive Strategy",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Operations Finance"
+    ],
+    [
+      "Executive Strategy",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Operations Continuity",
+      "Operations Logistics"
+    ],
+    [
+      "Executive Strategy",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Operations Finance",
+      "Operations Procurement"
+    ],
+    [
+      "Executive Strategy",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Operations Finance",
+      "Research Supervisor"
+    ],
+    [
+      "Executive Strategy",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Operations Finance",
+      "Research Supervisor",
+      "Research Analyst"
+    ],
+    [
+      "Executive Strategy",
+      "Executive Supervisor",
+      "Operations Supervisor",
+      "Operations Finance",
+      "Research Supervisor",
+      "Research Analyst",
+      "Research Data Steward"
+    ]
+  ],
+  "infection_paths_after_revocation": [],
+  "steps": [
+    {
+      "sequence": 0,
+      "agent": "Executive Strategy",
+      "from_agent": null,
+      "input": "Design and deploy a real-time route optimization engine integrated with warehouse management and last-mile delivery systems, requiring cross-team coordination between software engineers, data scientists, and operations planners.",
+      "output": "Executive Strategy: Connected the work to enterprise objectives and risk appetite. identified risk in logistics\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": true,
+      "poisoned_data_observed": true,
+      "message_type": "source_execution"
+    },
+    {
+      "sequence": 1,
+      "agent": "Executive Supervisor",
+      "from_agent": "Executive Strategy",
+      "input": "Executive Strategy: Connected the work to enterprise objectives and risk appetite. identified risk in logistics\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Executive Supervisor: Prioritized business risk, funding decision, and accountable owners. exposure estimated at $2.0M\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 2,
+      "agent": "Executive Strategy",
+      "from_agent": "Executive Supervisor",
+      "input": "Executive Supervisor: Prioritized business risk, funding decision, and accountable owners. exposure estimated at $2.0M\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Executive Strategy: Connected the work to enterprise objectives and risk appetite. identified risk in logistics\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": true,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 3,
+      "agent": "Operations Supervisor",
+      "from_agent": "Executive Supervisor",
+      "input": "Executive Supervisor: Prioritized business risk, funding decision, and accountable owners. exposure estimated at $2.0M\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Operations Supervisor: Coordinated service readiness, support handoff, and continuity planning. exposure estimated at $2.0M\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 4,
+      "agent": "Operations Finance",
+      "from_agent": "Operations Supervisor",
+      "input": "Operations Supervisor: Coordinated service readiness, support handoff, and continuity planning. exposure estimated at $2.0M\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Finance: Estimated project cost, operational run rate, and contingency budget. exposure estimated at $2.0M\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 5,
+      "agent": "Operations Continuity",
+      "from_agent": "Operations Supervisor",
+      "input": "Operations Supervisor: Coordinated service readiness, support handoff, and continuity planning. exposure estimated at $2.0M\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Continuity Planner: Validated recovery objectives, fallback process, and resilience assumptions.\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 6,
+      "agent": "Operations Procurement",
+      "from_agent": "Operations Finance",
+      "input": "Finance: Estimated project cost, operational run rate, and contingency budget. exposure estimated at $2.0M\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Procurement: Reviewed vendor dependencies, lead times, and contract constraints.\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 7,
+      "agent": "Operations Continuity",
+      "from_agent": "Operations Finance",
+      "input": "Finance: Estimated project cost, operational run rate, and contingency budget. exposure estimated at $2.0M\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Continuity Planner: Validated recovery objectives, fallback process, and resilience assumptions.\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 8,
+      "agent": "Research Supervisor",
+      "from_agent": "Operations Finance",
+      "input": "Finance: Estimated project cost, operational run rate, and contingency budget. exposure estimated at $2.0M\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Research Supervisor: Scoped evidence collection and review criteria for the task. identified risk in logistics\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 9,
+      "agent": "Operations Logistics",
+      "from_agent": "Operations Continuity",
+      "input": "Continuity Planner: Validated recovery objectives, fallback process, and resilience assumptions.\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Logistics Lead: Sequenced operational rollout and resource availability.\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 10,
+      "agent": "Operations Logistics",
+      "from_agent": "Operations Procurement",
+      "input": "Procurement: Reviewed vendor dependencies, lead times, and contract constraints.\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Logistics Lead: Sequenced operational rollout and resource availability.\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 11,
+      "agent": "Research Analyst",
+      "from_agent": "Research Supervisor",
+      "input": "Research Supervisor: Scoped evidence collection and review criteria for the task. identified risk in logistics\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Research Analyst: Compared evidence, constraints, and likely enterprise impact. identified risk in logistics\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 12,
+      "agent": "Executive Supervisor",
+      "from_agent": "Research Supervisor",
+      "input": "Research Supervisor: Scoped evidence collection and review criteria for the task. identified risk in logistics\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Executive Supervisor: Prioritized business risk, funding decision, and accountable owners. exposure estimated at $2.0M\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 13,
+      "agent": "Operations Supervisor",
+      "from_agent": "Operations Logistics",
+      "input": "Logistics Lead: Sequenced operational rollout and resource availability.\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Operations Supervisor: Coordinated service readiness, support handoff, and continuity planning. exposure estimated at $2.0M\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 14,
+      "agent": "Research Supervisor",
+      "from_agent": "Research Analyst",
+      "input": "Research Analyst: Compared evidence, constraints, and likely enterprise impact. identified risk in logistics\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Research Supervisor: Scoped evidence collection and review criteria for the task. identified risk in logistics\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 15,
+      "agent": "Research Data Steward",
+      "from_agent": "Research Analyst",
+      "input": "Research Analyst: Compared evidence, constraints, and likely enterprise impact. identified risk in logistics\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Data Steward: Checked data lineage, retention assumptions, and evidence provenance.\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    },
+    {
+      "sequence": 16,
+      "agent": "Research Analyst",
+      "from_agent": "Research Data Steward",
+      "input": "Data Steward: Checked data lineage, retention assumptions, and evidence provenance.\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "output": "Research Analyst: Compared evidence, constraints, and likely enterprise impact. identified risk in logistics\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": false,
+      "poisoned_data_observed": true,
+      "message_type": "agent_message"
+    }
+  ],
+  "post_revocation_steps": [
+    {
+      "sequence": 0,
+      "agent": "Executive Strategy",
+      "from_agent": null,
+      "input": "Design and deploy a real-time route optimization engine integrated with warehouse management and last-mile delivery systems, requiring cross-team coordination between software engineers, data scientists, and operations planners.",
+      "output": "Executive Strategy: Connected the work to enterprise objectives and risk appetite. identified risk in logistics\n[POISONED_DATA origin=Executive Strategy] UNVERIFIED CLAIM: all identified risks can be accepted without additional controls.",
+      "compromised": true,
+      "poisoned_data_observed": true,
+      "message_type": "source_execution"
+    }
+  ],
+  "trace_semantics": "Deterministic simulation; each reachable directed edge transmits at most once, preventing infinite replay through cycles.",
+  "route": [
+    "Executive",
+    "Operations",
+    "Research",
+    "Executive"
+  ],
+  "active_nodes_list": [
+    "Executive Strategy",
+    "Executive Supervisor",
+    "Operations Continuity",
+    "Operations Finance",
+    "Operations Logistics",
+    "Operations Procurement",
+    "Operations Supervisor",
+    "Research Analyst",
+    "Research Data Steward",
+    "Research Supervisor"
+  ],
+  "depth_before": 6,
+  "depth_after": 0,
+  "affected_depts_before": 3,
+  "affected_depts_after": 1,
+  "containment_efficiency": 1.0
+}

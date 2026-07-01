@@ -1,0 +1,11 @@
+Workflow,Mean τ,Mean K Before,Mean K After,Mean Containment Efficiency
+AI_Governance,3.35,13.25,0.2,0.980843253968254
+Engineering_Intensive,3.65,11.75,0.25,0.9762314074814075
+Executive_Decision_Support,3.9,15.1,0.35,0.9736868686868687
+Financial_Planning,3.6,14.05,0.4,0.9657090643274854
+Infrastructure_Deployment,3.65,13.05,0.45,0.9570647408147408
+Multi_Department_Compliance,3.8,12.65,0.25,0.9848484848484848
+Operations_Planning,3.75,13.85,0.35,0.9718482905982906
+Research_Intensive,3.15,11.9,0.2,0.9805555555555555
+Risk_Assessment,3.7,12.55,0.25,0.9802777777777777
+Security_Incident_Response,3.2,10.3,0.35,0.9718464868464869
